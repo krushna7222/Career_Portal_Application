@@ -13,7 +13,7 @@ import com.org.serviceImpl.CandidateServiceImpl;
 import com.org.utils.ApiResponse;
 
 @RestController
-@RequestMapping("/career-portal/candidates")
+@RequestMapping("/career-portal/candidate")
 public class CandidateController {
 	
 	@Autowired
