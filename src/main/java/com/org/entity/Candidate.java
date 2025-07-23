@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import lombok.NonNull;
 
 @Entity
+@Data
 public class Candidate {
 	
 	@Id
