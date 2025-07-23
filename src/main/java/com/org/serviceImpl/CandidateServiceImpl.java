@@ -1,5 +1,7 @@
 package com.org.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,16 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 
+<<<<<<< HEAD
 	@Override
 	public Candidate viewProfile(Integer id) {
 		 return candidateRepo.findById(id).get();
+=======
+	public List<Candidate> getAllCandidate() {
+		
+		List<Candidate> clist = candidateRepo.findAll();
+		return clist;
+>>>>>>> 9a98d3943aa4c5495d7a802436b1067199b30f18
 	}
 
 

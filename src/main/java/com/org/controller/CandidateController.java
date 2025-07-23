@@ -1,5 +1,7 @@
 package com.org.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,13 @@ public class CandidateController {
 		 	return ResponseEntity.status(201).body(response);
 	    }
 	 
+<<<<<<< HEAD
 	 
 	 @GetMapping("/profile/{id}")
 	 public ResponseEntity<Candidate> profile(@PathVariable Integer id){
 		 return new ResponseEntity<>(candidateService.viewProfile(id), HttpStatus.OK);
 	 }
 	
+=======
+>>>>>>> 9a98d3943aa4c5495d7a802436b1067199b30f18
 }
