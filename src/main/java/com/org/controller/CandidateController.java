@@ -1,8 +1,7 @@
 package com.org.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,24 +21,6 @@ public class CandidateController {
 	@Autowired
 	private CandidateServiceImpl candidateService;
 
-<<<<<<< HEAD
-	 @PostMapping("/register")
-	    public ResponseEntity<ApiResponse<Candidate>> register(@RequestBody Candidate data) {
-		 
-		 Candidate candidate =  candidateService.register(data);
-		 	
-		 	ApiResponse<Candidate> response = new ApiResponse<Candidate>(200, candidate, "Candidate Registered Succesfully...");
-	        
-		 	return ResponseEntity.status(201).body(response);
-	    }
-	 
-		
-	 @GetMapping("/profile/{id}")
-	 public ResponseEntity<Candidate> profile(@PathVariable Integer id){
-		 return new ResponseEntity<>(candidateService.viewProfile(id), HttpStatus.OK);
-	 }
-
-=======
 	@PostMapping("/register")
 	public ResponseEntity<ApiResponse<Candidate>> register(@RequestBody Candidate data) {
 
@@ -59,5 +40,4 @@ public class CandidateController {
 
 		return  ResponseEntity.status(201).body(response);
 	}
->>>>>>> db60f99d4d28fa9bba6222bdab69d1cc55b623da
 }
