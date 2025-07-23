@@ -1,5 +1,7 @@
 package com.org.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,13 @@ public class CandidateServiceImpl implements CandidateService {
 		Candidate c = candidateRepo.save(data);
 		return c;		
 		
+	}
+
+
+	public List<Candidate> getAllCandidate() {
+		
+		List<Candidate> clist = candidateRepo.findAll();
+		return clist;
 	}
 
 
