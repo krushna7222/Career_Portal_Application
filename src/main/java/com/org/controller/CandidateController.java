@@ -33,10 +33,20 @@ public class CandidateController {
 		 	return ResponseEntity.status(201).body(response);
 	    }
 	 
+<<<<<<< HEAD
+=======
+//<<<<<<< HEAD
+>>>>>>> 55fd485d7b6c2f87dfea39f0fcf0850b46c0b1a9
 	 
 	 @GetMapping("/profile/{id}")
 	 public ResponseEntity<Candidate> profile(@PathVariable Integer id){
 		 return new ResponseEntity<>(candidateService.viewProfile(id), HttpStatus.OK);
 	 }
+<<<<<<< HEAD
 
+=======
+	
+//=======
+//>>>>>>> 9a98d3943aa4c5495d7a802436b1067199b30f18
+>>>>>>> 55fd485d7b6c2f87dfea39f0fcf0850b46c0b1a9
 }
