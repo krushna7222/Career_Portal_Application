@@ -15,7 +15,7 @@ public class CandidateServiceImpl implements CandidateService {
 	@Autowired
     private CandidateRepository candidateRepo;
 
-
+	@Override
 	public Candidate register(Candidate data) {
 		
 		Candidate c = candidateRepo.save(data);
@@ -24,16 +24,15 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 
-<<<<<<< HEAD
 	@Override
 	public Candidate viewProfile(Integer id) {
 		 return candidateRepo.findById(id).get();
-=======
+	}
+		 
 	public List<Candidate> getAllCandidate() {
 		
 		List<Candidate> clist = candidateRepo.findAll();
 		return clist;
->>>>>>> 9a98d3943aa4c5495d7a802436b1067199b30f18
 	}
 
 

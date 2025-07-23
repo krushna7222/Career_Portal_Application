@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.org.entity.Candidate;
+import com.org.serviceImpl.AdminServiceImpl;
 import com.org.serviceImpl.CandidateServiceImpl;
 import com.org.utils.ApiResponse;
 
@@ -17,13 +18,13 @@ import com.org.utils.ApiResponse;
 public class AdminController {
 	
 	@Autowired
-    private CandidateServiceImpl candidateService;
+    private AdminServiceImpl adminService;
 
 	
 	 @GetMapping("/getAllCandidate")
 	 public ResponseEntity<ApiResponse<List<Candidate>>> getAllCandidate(){
 		 
-		 List<Candidate> candidates =  candidateService.getAllCandidate();
+		 List<Candidate> candidates =  adminService.getAllCandidate();
 		 
 		 ApiResponse<List<Candidate>> response = new ApiResponse<>(200, candidates, "All Candidate Feth Succesfully...");
 
