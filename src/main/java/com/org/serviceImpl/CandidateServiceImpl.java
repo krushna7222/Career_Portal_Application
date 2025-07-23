@@ -23,17 +23,24 @@ public class CandidateServiceImpl implements CandidateService {
 		
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> db60f99d4d28fa9bba6222bdab69d1cc55b623da
 	@Override
 	public Candidate viewProfile(Integer id) {
+		
 		 return candidateRepo.findById(id).get();
 	}
+<<<<<<< HEAD
 	
 	public List<Candidate> getAllCandidate() {
 		
 		List<Candidate> clist = candidateRepo.findAll();
 		return clist;
 	}
+=======
+>>>>>>> db60f99d4d28fa9bba6222bdab69d1cc55b623da
 
 
 }
