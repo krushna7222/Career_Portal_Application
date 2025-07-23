@@ -22,4 +22,10 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 
+	@Override
+	public Candidate viewProfile(Integer id) {
+		 return candidateRepo.findById(id).get();
+	}
+
+
 }

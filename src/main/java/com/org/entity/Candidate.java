@@ -24,6 +24,8 @@ public class Candidate {
 	@NonNull
 	private String email;
 	@NonNull
+	private String password;
+	@NonNull
 	private Long phone;
 	@NonNull
 	private String gender;
