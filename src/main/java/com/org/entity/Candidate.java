@@ -47,4 +47,7 @@ public class Candidate {
 	private String resume;
 	@NonNull
 	private String photo;
+	
+	private String token;
+		
 }
