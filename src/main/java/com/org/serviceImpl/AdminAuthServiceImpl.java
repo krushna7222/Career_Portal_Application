@@ -1,12 +1,14 @@
 package com.org.serviceImpl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.org.dto.AdminLoginRequest;
-import com.org.dto.TokenResponse;
+
 import com.org.utils.JwtUtil;
 
 @Service
@@ -16,7 +18,7 @@ public class AdminAuthServiceImpl {
     private String adminEmail;
 
     @Value("${admin.password}")
-    private String adminPassword;
+    private String adminPassword; 
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -24,17 +26,24 @@ public class AdminAuthServiceImpl {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public TokenResponse login(AdminLoginRequest req) {
-        if (!adminEmail.equals(req.getEmail()))
-            throw new RuntimeException("Invalid Email");
+    public Map<String, String> login(String email, String password) {
+        if (!adminEmail.equals(email)) {
+            throw new RuntimeException("Invalid email.");
+        }
 
-        if (!passwordEncoder.matches(req.getPassword(), adminPassword))
-            throw new RuntimeException("Invalid Password");
+        if (!passwordEncoder.matches(password, adminPassword)) {
+            throw new RuntimeException("Invalid password.");
+        }
 
-        String access = jwtUtil.generateAccessToken(req.getEmail());
-        String refresh = jwtUtil.generateRefreshToken(req.getEmail());
+        String access = jwtUtil.generateAccessToken(email);
+        String refresh = jwtUtil.generateRefreshToken(email);
 
-        return new TokenResponse(access, refresh);
+        Map<String, String> response = new HashMap();
+        response.put("email", email);
+        response.put("accessToken", access);
+        response.put("refreshToken", refresh);
+
+        return response;
     }
 
     public String refreshAccessToken(String refreshToken) {
