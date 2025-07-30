@@ -47,6 +47,13 @@ public class AdminController {
 			return ResponseEntity.status(401).body(errorResponse);
 		}
 	}
+	
+	@PostMapping("/logout")
+	public ResponseEntity<ApiResponse<String>> logout() {
+		
+	    ApiResponse<String> response = new ApiResponse<>(200, null, "Admin logged out successfully.");
+	    return ResponseEntity.ok(response);
+	}
 
 	@GetMapping("/getAllCandidate")
 	public ResponseEntity<ApiResponse<List<Candidate>>> getAllCandidate() {
