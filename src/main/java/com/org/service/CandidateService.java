@@ -2,9 +2,13 @@ package com.org.service;
 
 import com.org.entity.Candidate;
 
+import lombok.NonNull;
+
 public interface CandidateService {
 
 	Candidate register(Candidate data);
+	
+	Candidate findByEmail(@NonNull String email);
 
-	public Candidate viewProfile(Integer id);
+	Candidate viewProfile(Integer id);
 }
