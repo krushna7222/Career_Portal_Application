@@ -31,6 +31,7 @@ public class CandidateServiceImpl implements CandidateService {
 		 return candidateRepository.findById(id).get();
 	}
 
+	@Override
 	public Candidate findByEmail(@NonNull String email) {
 		return candidateRepository.findByEmail(email).orElse(null);
 	}
