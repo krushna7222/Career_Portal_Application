@@ -9,16 +9,18 @@ import com.org.entity.Candidate;
 import com.org.repository.CandidateRepository;
 import com.org.service.CandidateService;
 
+import lombok.NonNull;
+
 @Service
 public class CandidateServiceImpl implements CandidateService {
 	
 	@Autowired
-    private CandidateRepository candidateRepo;
+    private CandidateRepository candidateRepository;
 
 	@Override
 	public Candidate register(Candidate data) {
 		
-		Candidate c = candidateRepo.save(data);
+		Candidate c = candidateRepository.save(data);
 		return c;		
 		
 	}
@@ -26,7 +28,11 @@ public class CandidateServiceImpl implements CandidateService {
 	@Override
 	public Candidate viewProfile(Integer id) {
 		
-		 return candidateRepo.findById(id).get();
+		 return candidateRepository.findById(id).get();
+	}
+
+	public Candidate findByEmail(@NonNull String email) {
+		return candidateRepository.findByEmail(email).orElse(null);
 	}
 
 
