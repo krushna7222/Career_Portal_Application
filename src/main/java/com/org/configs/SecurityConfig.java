@@ -27,7 +27,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/career-portal/admin/**","/career-portal/candidate/register","/career-portal/candidate/login").permitAll()
+                .requestMatchers("/career-portal/admin/login","/career-portal/candidate/register","/career-portal/candidate/login").permitAll()
                 .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
