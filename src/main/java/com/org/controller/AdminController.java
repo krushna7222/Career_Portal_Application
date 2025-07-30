@@ -11,47 +11,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.org.dto.AdminLoginRequest;
-import com.org.dto.TokenResponse;
 import com.org.entity.Candidate;
 import com.org.serviceImpl.AdminAuthServiceImpl;
 import com.org.serviceImpl.AdminServiceImpl;
-import com.org.serviceImpl.CandidateServiceImpl;
 import com.org.utils.ApiResponse;
 
 @RestController
 @RequestMapping("/career-portal/admin")
 public class AdminController {
-	
+
 	@Autowired
-    private AdminServiceImpl adminService;
-	
+	private AdminServiceImpl adminService;
+
 	@Autowired
-    private AdminAuthServiceImpl authService;
+	private AdminAuthServiceImpl authService;
 
-    @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody AdminLoginRequest request) {
-        TokenResponse tokens = authService.login(request);
-        return ResponseEntity.ok(tokens);
-    }
+	@PostMapping("/refresh-token")
+	public ResponseEntity<Map<String, String>> refreshToken(@RequestBody Map<String, String> request) {
+		String refreshToken = request.get("refreshToken");
+		String newAccess = authService.refreshAccessToken(refreshToken);
+		return ResponseEntity.ok(Map.of("accessToken", newAccess));
+	}
 
-    @PostMapping("/refresh-token")
-    public ResponseEntity<Map<String, String>> refreshToken(@RequestBody Map<String, String> request) {
-        String refreshToken = request.get("refreshToken");
-        String newAccess = authService.refreshAccessToken(refreshToken);
-        return ResponseEntity.ok(Map.of("accessToken", newAccess));
-    }
+	@PostMapping("/login")
+	public ResponseEntity<ApiResponse<Map<String, String>>> login(@RequestBody Map<String, String> request) {
 
-	
-	 @GetMapping("/getAllCandidate")
-	 public ResponseEntity<ApiResponse<List<Candidate>>> getAllCandidate(){
-		 
-		 List<Candidate> candidates =  adminService.getAllCandidate();
-		 
-		 ApiResponse<List<Candidate>> response = new ApiResponse<>(200, candidates, "All Candidate Feth Succesfully...");
+		try {
+			String email = request.get("email");
+			String password = request.get("password");
+
+			Map<String, String> tokens = authService.login(email, password);
+
+			ApiResponse<Map<String, String>> response = new ApiResponse<>(200, tokens, "Admin logged in successfully.");
+			return ResponseEntity.ok(response);
+
+		} catch (Exception e) {
+			ApiResponse<Map<String, String>> errorResponse = new ApiResponse<>(401, null, e.getMessage());
+			return ResponseEntity.status(401).body(errorResponse);
+		}
+	}
+
+	@GetMapping("/getAllCandidate")
+	public ResponseEntity<ApiResponse<List<Candidate>>> getAllCandidate() {
+
+		List<Candidate> candidates = adminService.getAllCandidate();
+
+		ApiResponse<List<Candidate>> response = new ApiResponse<>(200, candidates, "All Candidate Feth Succesfully...");
 
 		return ResponseEntity.status(201).body(response);
-		 
-	 }
+
+	}
 
 }
