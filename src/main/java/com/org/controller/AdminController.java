@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.org.entity.Candidate;
-import com.org.serviceImpl.AdminAuthServiceImpl;
 import com.org.serviceImpl.AdminServiceImpl;
 import com.org.utils.ApiResponse;
 
@@ -20,16 +19,14 @@ import com.org.utils.ApiResponse;
 @RequestMapping("/career-portal/admin")
 public class AdminController {
 
-	@Autowired
-	private AdminServiceImpl adminService;
 
 	@Autowired
-	private AdminAuthServiceImpl authService;
+	private AdminServiceImpl adminServiceImpl;
 
 	@PostMapping("/refresh-token")
 	public ResponseEntity<Map<String, String>> refreshToken(@RequestBody Map<String, String> request) {
 		String refreshToken = request.get("refreshToken");
-		String newAccess = authService.refreshAccessToken(refreshToken);
+		String newAccess = adminServiceImpl.refreshAccessToken(refreshToken);
 		return ResponseEntity.ok(Map.of("accessToken", newAccess));
 	}
 
@@ -40,7 +37,7 @@ public class AdminController {
 			String email = request.get("email");
 			String password = request.get("password");
 
-			Map<String, String> tokens = authService.login(email, password);
+			Map<String, String> tokens = adminServiceImpl.login(email, password);
 
 			ApiResponse<Map<String, String>> response = new ApiResponse<>(200, tokens, "Admin logged in successfully.");
 			return ResponseEntity.ok(response);
@@ -54,7 +51,7 @@ public class AdminController {
 	@GetMapping("/getAllCandidate")
 	public ResponseEntity<ApiResponse<List<Candidate>>> getAllCandidate() {
 
-		List<Candidate> candidates = adminService.getAllCandidate();
+		List<Candidate> candidates = adminServiceImpl.getAllCandidate();
 
 		ApiResponse<List<Candidate>> response = new ApiResponse<>(200, candidates, "All Candidate Feth Succesfully...");
 
