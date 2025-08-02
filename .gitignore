@@ -26,3 +26,4 @@ src/main/resources/application.properties
 .classpath
 target/classes/application.properties
 *.properties
+.classpath
