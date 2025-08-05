@@ -30,9 +30,9 @@ public class AdminServiceImpl implements AdminService {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-    private CandidateRepository candidateRepo;
+    private CandidateRepository candidateRepository;
 
-
+	@Override
 	public Map<String, String> login(String email, String password) {
 		if (!adminEmail.equals(email)) {
 			throw new RuntimeException("Invalid email.");
@@ -53,6 +53,7 @@ public class AdminServiceImpl implements AdminService {
 		return response;
 	}
 
+	@Override
 	public String refreshAccessToken(String refreshToken) {
 		if (!jwtUtil.isTokenValid(refreshToken)) {
 			throw new RuntimeException("Invalid or expired refresh token");
@@ -61,9 +62,10 @@ public class AdminServiceImpl implements AdminService {
 		return jwtUtil.generateAccessToken(email);
 	}
 
+	@Override
 	public List<Candidate> getAllCandidate() {
 
-		List<Candidate> clist = candidateRepo.findAll();
+		List<Candidate> clist = candidateRepository.findAll();
 		return clist;
 
 	}
