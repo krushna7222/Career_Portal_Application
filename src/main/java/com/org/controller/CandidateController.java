@@ -1,8 +1,10 @@
 package com.org.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.org.entity.Candidate;
 import com.org.serviceImpl.CandidateServiceImpl;
@@ -34,19 +38,29 @@ public class CandidateController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Candidate>> register(@RequestBody Candidate data) {
+    public ResponseEntity<ApiResponse<Candidate>> register(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam Long phone,
+            @RequestParam String gender,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dob,
+            @RequestParam String education,
+            @RequestParam Integer passoutYear,
+            @RequestParam String status,
+            @RequestParam String profileSummary,
+            @RequestParam String workExperience,
+            @RequestParam String skills,
+            @RequestParam MultipartFile resume,
+            @RequestParam MultipartFile photo) {
 
-        // Encode password before saving
-        data.setPassword(passwordEncoder.encode(data.getPassword()));
+        Candidate saved = candidateService.register(name, email, password, phone, gender, dob, education,
+                passoutYear, status, profileSummary, workExperience, skills, resume, photo);
 
-        // Save the candidate
-        Candidate candidate = candidateService.register(data);
-
-        // Wrap in ApiResponse
-        ApiResponse<Candidate> response = new ApiResponse<>(201, candidate, "Candidate Registered Successfully...");
-
+        ApiResponse<Candidate> response = new ApiResponse<>(200, saved, "Candidate Registered Successfully");
         return ResponseEntity.status(201).body(response);
     }
+
 
 	
 	@PostMapping("/login")
@@ -66,13 +80,12 @@ public class CandidateController {
 		try {
 			token = jwtUtil.generateAccessToken(candidate.getEmail());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
-	    // 4. Attach token to candidate object (if your entity has no token field, skip this and send separately)
-	    // Optional: You can wrap Candidate & token in a map if you don't want to modify entity
-	    candidate.setToken(token); // ➤ only if your Candidate class has a `token` field
+	    
+	    candidate.setToken(token); 
 
 	    // 5. Send response
 	    ApiResponse<Candidate> response = new ApiResponse<>(200, candidate, "Login Successful");
