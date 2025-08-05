@@ -2,12 +2,13 @@ package com.org.controller;
 
 import java.util.List;
 import java.util.Map;
-
+import com.org.utils.TokenBlacklist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +20,15 @@ import com.org.utils.ApiResponse;
 @RequestMapping("/career-portal/admin")
 public class AdminController {
 
+    private final TokenBlacklist tokenBlacklist;
+
 
 	@Autowired
 	private AdminServiceImpl adminServiceImpl;
+
+    AdminController(TokenBlacklist tokenBlacklist) {
+        this.tokenBlacklist = tokenBlacklist;
+    }
 
 	@PostMapping("/refresh-token")
 	public ResponseEntity<Map<String, String>> refreshToken(@RequestBody Map<String, String> request) {
@@ -49,11 +56,13 @@ public class AdminController {
 	}
 	
 	@PostMapping("/logout")
-	public ResponseEntity<ApiResponse<String>> logout() {
-		
-	    ApiResponse<String> response = new ApiResponse<>(200, null, "Admin logged out successfully.");
+	public ResponseEntity<ApiResponse<Void>> logout(@RequestHeader("Authorization") String authHeader) {
+	    String token = authHeader.replace("Bearer ", "");
+	    tokenBlacklist.blacklist(token);
+	    ApiResponse<Void> response = new ApiResponse<>(200, null, "Admin logged out successfully.");
 	    return ResponseEntity.ok(response);
 	}
+
 
 	@GetMapping("/getAllCandidate")
 	public ResponseEntity<ApiResponse<List<Candidate>>> getAllCandidate() {
